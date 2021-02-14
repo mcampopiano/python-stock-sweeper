@@ -6,7 +6,7 @@ from pprint import pprint
 
 url = 'https://api.tdameritrade.com/v1/instruments'
 
-df = pd.read_excel('Complete_List.xlsx')
+df = pd.read_csv('nasdaq_screener.csv')
 symbols = list(df['Symbol'].values)
 
 start = 0
@@ -30,6 +30,7 @@ while start < len(symbols):
     end += 500
     time.sleep(1)
 
+pprint(len(data))
 data = []
 
 for file in files:
@@ -43,3 +44,6 @@ for file in files:
             tick.append(info[ticker]['fundamental'][point])
         data.append(tick)
     os.remove(file)
+points = ['symbol','netProfitMarginMRQ','peRatio','pegRatio','high52']
+
+df_results = pd.DataFrame(data,columns=points)
